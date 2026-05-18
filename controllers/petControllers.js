@@ -48,5 +48,25 @@ const getSinglePet = async (req, res)=>{
     }
 }
 
+const deletePet = async (req, res) =>{
+    const {id} = req.params;
+    try {
+        const petCollection = await getCollection("petCollection");
+        const result = await petCollection.deleteOne({_id: new ObjectId(id)});
 
-module.exports = {createPet, updatePet, getAllPets, getSinglePet}
+         return res.json({ success: true, data: result })
+    } catch (error) {
+         return res.json({ success: false, message: error.message })
+    }
+}
+
+const SearchPet = async (req, res)=>{
+    try {
+        const petCollection = await getCollection("petCollection");
+    } catch (error) {
+        return res.json({ success: false, message: error.message })
+    }
+}
+
+
+module.exports = {createPet, updatePet, getAllPets, getSinglePet, deletePet}

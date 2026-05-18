@@ -14,7 +14,6 @@ const connectDB = async () => {
   });
 
   await client.connect();
-  // Send a ping to confirm a successful connection
   await client.db("admin").command({ ping: 1 });
   console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
@@ -23,7 +22,7 @@ const connectDB = async () => {
 };
 
 /**
- * @returns {import('mongodb').Collection}  //for suggestion
+ * @returns {import('mongodb').Collection}  //for suggestion i using this line of code
  */
 
 const getCollection = async (collectionName) => {
