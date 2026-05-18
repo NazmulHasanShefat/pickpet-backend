@@ -1,0 +1,38 @@
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
+let db = null;
+
+const connectDB = async () => {
+  if (db) return db;
+
+  const client = new MongoClient(process.env.DB_URL_SRV, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+
+  await client.connect();
+  // Send a ping to confirm a successful connection
+  await client.db("admin").command({ ping: 1 });
+  console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+  db = client.db("pickpet");
+  return db;
+};
+
+/**
+ * @returns {import('mongodb').Collection}  //for suggestion
+ */
+
+const getCollection = async (collectionName) => {
+  try {
+    const databse = await connectDB();
+    return databse.collection(collectionName);
+  } catch (error) {
+    console.log("faild to fetch collection Error:", error);
+  }
+};
+
+module.exports = { connectDB, getCollection };
