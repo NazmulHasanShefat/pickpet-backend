@@ -14,17 +14,39 @@ const createPet = async(req, res)=>{
 
 const updatePet = async (req, res)=> {
     const updatedPet = req.body;
-    const id = req.params;
+    const {id} = req.params;
     try {
         const petCollection = await getCollection("petCollection");
-        const result = petCollection.updateOne(
+        const result = await petCollection.updateOne(
             {_id: new ObjectId(id)},
-            {$set: updatedPet}
+            {$set: updatedPet},
         )
-        return res.json({ success: false, message: "updated successfully" })
+        return res.json({ success: true, message: result })
     } catch (error) {
         return res.json({ success: false, message: error.message })
     }
 }
 
-module.exports = {createPet}
+const getAllPets = async (req, res)=>{
+    try {
+        const petCollection = await getCollection("petCollection");
+        const result = await petCollection.find().toArray();
+         return res.json({ success: true, data: result })
+    } catch (error) {
+        return res.json({ success: false, message: error.message })
+    }
+}
+
+const getSinglePet = async (req, res)=>{
+    const {id} = req.params;
+    try {
+        const petCollection = await getCollection("petCollection");
+        const result = await petCollection.findOne({_id: new ObjectId(id)});
+         return res.json({ success: true, data: result })
+    } catch (error) {
+         return res.json({ success: false, message: error.message })
+    }
+}
+
+
+module.exports = {createPet, updatePet, getAllPets, getSinglePet}
