@@ -106,5 +106,4 @@ const filterPets = async(req, res)=>{
     }
 }
 
-
 module.exports = {createPet, updatePet, getAllPets, getSinglePet, deletePet, SearchPet, filterPets}
