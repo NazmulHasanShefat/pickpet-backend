@@ -106,4 +106,23 @@ const filterPets = async(req, res)=>{
     }
 }
 
-module.exports = {createPet, updatePet, getAllPets, getSinglePet, deletePet, SearchPet, filterPets}
+const AdoptRequest = async(req, res)=>{
+    const {adopted} = req.body;
+    const Adoptrequestbody = req.body
+    const {id} = req.params;
+    try {
+        const petCollection = await getCollection("petCollection");
+        const AdoptRequestCollection = await getCollection("AdoptRequestCollection");
+        const insertResult = await AdoptRequestCollection.insertOne(Adoptrequestbody);
+
+        const result = await petCollection.updateOne(
+            {_id: new ObjectId(id)},
+            {$set: {adopted: true}}
+        )
+        return res.json({success: true, message: {insertResult, result}});
+    } catch (error) {
+         return res.json({ success: false, message: error.message })
+    }
+}
+
+module.exports = {createPet, updatePet, getAllPets, getSinglePet, deletePet, SearchPet, filterPets, AdoptRequest}
