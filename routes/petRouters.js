@@ -11,6 +11,8 @@ const {
   getMyRequest,
   getMyListing,
   cancleAdoptRequest,
+  RejectAdoptRequest,
+  ApproveAdoptRequest,
 } = require("../controllers/petControllers.js");
 const { verifyUser } = require("../middleware/varifyUser.js");
 
@@ -27,5 +29,7 @@ petRouters.patch("/send-adoption-request/:id", verifyUser, AdoptRequest);
 petRouters.get("/my-request/:myEmail", getMyRequest);
 petRouters.get("/my-listing/:myEmail", getMyListing);
 petRouters.patch("/cancle-adopt-request/:id", verifyUser, cancleAdoptRequest);
+petRouters.patch("/RejectAdoptRequest/:id", verifyUser, RejectAdoptRequest);
+petRouters.patch("/approve-request/:id", verifyUser, ApproveAdoptRequest);
 
 module.exports = petRouters;

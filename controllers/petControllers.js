@@ -157,21 +157,59 @@ const getMyListing = async (req, res) => {
   }
 };
 
-const cancleAdoptRequest = async (req, res)=>{
-  const {id} = req.params;
+const cancleAdoptRequest = async (req, res) => {
+  const { id } = req.params;
   try {
     const petCollection = await getCollection("petCollection");
     const result = await petCollection.updateOne(
-      {_id: new ObjectId(id)},
-      {$set: {request: {}, adoptedStatus: false}}
+      { _id: new ObjectId(id) },
+      { $set: { request: {}, adoptedStatus: false } },
     );
-    return res.json({success: true, message: result});
-
+    return res.json({ success: true, message: result });
   } catch (error) {
-    return res.json({success: false, message: error})
+    return res.json({ success: false, message: error });
   }
-}
+};
 
+const RejectAdoptRequest = async (req, res) => {
+  const { id } = req.params;
+  const rejectionBody = req.body;
+  try {
+    const petCollection = await getCollection("petCollection");
+    const result = await petCollection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          request: rejectionBody,
+          adoptedStatus: false,
+        },
+      },
+    );
+    return res.json({ success: true, message: result });
+  } catch (error) {
+    return res.json({ success: false, message: error });
+  }
+};
+
+const ApproveAdoptRequest = async (req, res) => {
+  const { id } = req.params;
+   const ApproveBody = req.body;
+  try {
+    const petCollection = await getCollection("petCollection");
+    const result = await petCollection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          request: ApproveBody,
+          adoptedStatus: true,
+        },
+      },
+    );
+    return res.json({ success: true, message: result });
+  } catch (error) {
+    return res.json({ success: false, message: error });
+  }
+};
 
 module.exports = {
   createPet,
@@ -185,4 +223,6 @@ module.exports = {
   getMyRequest,
   getMyListing,
   cancleAdoptRequest,
+  RejectAdoptRequest,
+  ApproveAdoptRequest
 };
