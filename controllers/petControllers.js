@@ -141,7 +141,36 @@ const getMyRequest = async (req, res) => {
   }
 };
 
-/// create a function get my list
+/// create a function get my listing
+const getMyListing = async (req, res) => {
+  const { myEmail } = req.params;
+  const filter = {
+    Owner_Email: `${myEmail}`,
+  };
+  try {
+    const requestCollection = await getCollection("petCollection");
+    const result = await requestCollection.find(filter).toArray();
+
+    return res.json({ success: true, data: result });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+const cancleAdoptRequest = async (req, res)=>{
+  const {id} = req.params;
+  try {
+    const petCollection = await getCollection("petCollection");
+    const result = await petCollection.updateOne(
+      {_id: new ObjectId(id)},
+      {$set: {request: {}, adoptedStatus: false}}
+    );
+    return res.json({success: true, message: result});
+
+  } catch (error) {
+    return res.json({success: false, message: error})
+  }
+}
 
 
 module.exports = {
@@ -154,4 +183,6 @@ module.exports = {
   filterPets,
   AdoptRequest,
   getMyRequest,
+  getMyListing,
+  cancleAdoptRequest,
 };
