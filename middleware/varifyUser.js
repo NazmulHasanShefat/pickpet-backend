@@ -6,12 +6,12 @@ const { createRemoteJWKSet, jwtVerify } = require("jose-cjs");
 const verifyUser = async (req, res, next)=>{
     const authHeaders = req?.headers?.authorization;
     if(!authHeaders){
-       return res.status(401).json({success: false, message: "unauthorized"})
+       return res.status(401).json({success: false, message: "unauthorized token not found"})
     }
     const userToken = authHeaders.split(" ")[1]
     console.log(userToken);
     if(!userToken){
-        return res.status(401).json({success: false, message: "unauthorized"})
+        return res.status(401).json({success: false, message: "unauthorized token"})
     }
     try {
         const { payload } = await jwtVerify(userToken, JWKS);
