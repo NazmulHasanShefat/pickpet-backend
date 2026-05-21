@@ -21,7 +21,7 @@ const petRouters = express.Router();
 petRouters.post("/create-pet_details", createPet);
 petRouters.patch("/update-pet/:id", verifyUser, updatePet);
 petRouters.get("/all-pets", getAllPets);
-petRouters.get("/single-pet/:id",verifyUser, getSinglePet);
+petRouters.get("/single-pet/:id", verifyUser, getSinglePet);
 petRouters.delete("/delete-pet/:id", verifyUser, deletePet);
 petRouters.get("/search", SearchPet);
 petRouters.get("/filter-pets", filterPets);
