@@ -99,7 +99,7 @@ const filterPets = async (req, res) => {
     }
     const petCollection = await getCollection("petCollection");
     const result = await petCollection.find(filter).toArray();
-    res.json(result);
+    res.json({message:true, data: result});
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
