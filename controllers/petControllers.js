@@ -90,14 +90,13 @@ const filterPets = async (req, res) => {
   try {
     const filter = {};
     if (species) {
-      filter.species = { $regex: `^${species}$`, $options: "i" };
+      filter.Species = { $regex: `^${species}$`, $options: "i" };
       // filter.species = {$regex: species, $options: "i"} eta kaj korbe na karon female text er modde male text ache
     }
     if (gender) {
       // filter.gender = {$regex: gender, $options: "i"}; eta kaj korbe na karon female text er modde male text ache
       filter.gender = { $regex: `^${gender}$`, $options: "i" };
     }
-
     const petCollection = await getCollection("petCollection");
     const result = await petCollection.find(filter).toArray();
     res.json(result);
