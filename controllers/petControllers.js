@@ -68,7 +68,7 @@ const SearchPet = async (req, res) => {
     const SearchQuery = {
       $or: [
         { petName: { $regex: query, $options: "i" } },
-        { species: { $regex: query, $options: "i" } },
+        { Species: { $regex: query, $options: "i" } },
         { breed: { $regex: query, $options: "i" } },
         { description: { $regex: query, $options: "i" } },
         { location: { $regex: query, $options: "i" } },
