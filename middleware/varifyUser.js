@@ -2,7 +2,7 @@
 const { createRemoteJWKSet, jwtVerify } = require("jose-cjs");
 
 const JWKS = createRemoteJWKSet(
-  new URL(`https://pickpet-backend.vercel.app/api/auth/jwks`),
+  new URL("https://pick-pet.vercel.app/api/auth/jwks"),
 );
 
 const verifyUser = async (req, res, next) => {
