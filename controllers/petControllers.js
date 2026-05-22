@@ -99,7 +99,7 @@ const filterPets = async (req, res) => {
     }
     const petCollection = await getCollection("petCollection");
     const result = await petCollection.find(filter).toArray();
-    res.json({message:true, data: result});
+    res.json({ message: true, data: result });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
@@ -192,7 +192,7 @@ const RejectAdoptRequest = async (req, res) => {
 
 const ApproveAdoptRequest = async (req, res) => {
   const { id } = req.params;
-   const ApproveBody = req.body;
+  const ApproveBody = req.body;
   try {
     const petCollection = await getCollection("petCollection");
     const result = await petCollection.updateOne(
@@ -210,6 +210,48 @@ const ApproveAdoptRequest = async (req, res) => {
   }
 };
 
+const findUnique = async (req, res) => {
+  try {
+    const categoryCollection = await getCollection("petCollection");
+    const UniqueSpicies = await categoryCollection
+      .aggregate([
+        {
+          $group: {
+            _id: {
+              $toLower: "$Species",
+            },
+
+            name: {
+              $first: "$Species",
+            },
+
+            id: {
+              $first: "$_id",
+            },
+          },
+        },
+
+        {
+          $project: {
+            _id: 0,
+            id: 1,
+            name: 1,
+          },
+        },
+      ])
+      .toArray();
+      if(!UniqueSpicies){
+        return {success: false , message: "get spicies faild"}
+      }
+      
+    res.json({ UniqueSpicies });
+
+
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createPet,
   updatePet,
@@ -223,5 +265,6 @@ module.exports = {
   getMyListing,
   cancleAdoptRequest,
   RejectAdoptRequest,
-  ApproveAdoptRequest
+  ApproveAdoptRequest,
+  findUnique,
 };
